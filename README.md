@@ -14,15 +14,15 @@ The Docker image has been built for both x86_64 and ARM64, so the same instructi
 
 ```bash
 #1. Pull Docker image from ghcr.io
-docker pull ghcr.io/janssen-v/rvemu
+docker pull ghcr.io/lwh1/rvemu:latestu
 
 # 2. Run container
-docker container run --name rvemu -p 2222:2222 -d ghcr.io/janssen-v/rvemu
+docker container run --name rvemu -p 2222:2222 -d ghcr.io/lwh1/rvemu
 
 # 3. SSH into QEMU
-ssh student@localhost -p 2222
+ssh root@localhost -p 2222
 
-# When prompted for password, enter: ilovecs
+# When prompted for password, enter: csc3060
 # You are now connected to your RISC-V environment
 ```
 
