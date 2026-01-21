@@ -1,14 +1,12 @@
-# RISC-V GDB Environment
+# RISC-V GDB Environment for CSC3060 Bomblab
 
 ## Docker
 
-In this tutorial, we will be using a prebuilt Docker image to ensure a consistent and reproducible environment. 
+In this tutorial, we will use a prebuilt Docker image to ensure a consistent, reproducible environment for doing the bomblab. 
 
-Before starting, make sure you have installed the Docker container engine and any other necessary packages. 
+Before starting, make sure you have installed Docker and any other necessary packages. 
 
 ## Environment Setup
-
-### Option 1. Pull Docker image from container repository
 
 The Docker image has been built for both x86_64 and ARM64, so the same instructions here will work for all systems (Apple/AMD/Intel).
 
@@ -25,36 +23,6 @@ ssh root@localhost -p 2222
 # When prompted for password, enter: csc3060
 # You are now connected to your RISC-V environment
 ```
-
-### Option 2. Build image from Dockerfile
-
-If you prefer to build your own image or have trouble accessing the GitHub container repository from outside campus, you can use the dockerfile below to build the same image from source.
-
-```dockerfile
-FROM alpine:3.19
-
-EXPOSE 2222
-
-# Install all needed packages
-RUN apk add wget qemu-system-riscv64 unzip
-
-# Get RISC-V Debian image
-RUN wget https://cdn.cloud.vjssn.dev/debian-riscv64-virt.zip && \ 
-	 unzip debian-riscv64-virt.zip && rm debian-riscv64-virt.zip
-
-# Get RISC-V Bootloader
-RUN wget https://cdn.cloud.vjssn.dev/qemu-riscv64_smode-uboot.elf
-
-# Start QEMU Emulator
-CMD qemu-system-riscv64 -smp 2 -m 2G -cpu rv64 -nographic -machine virt -kernel qemu-riscv64_smode-uboot.elf -device virtio-blk-device,drive=hd -drive file=dqib_riscv64-virt/image.qcow2,if=none,id=hd -device virtio-net-device,netdev=net -netdev user,id=net,hostfwd=tcp::2222-:22 -object rng-random,filename=/dev/urandom,id=rng -device virtio-rng-device,rng=rng -append "root=LABEL=rootfs console=ttyS0"
-
-```
-
-Copy the above into a dockerfile, and build it using the command below
-
-`docker build -t rvemu .`
-
-After the image is built, you can follow the steps from option 1 starting from **#2. Run container**.
 
 ### Starting and stopping your container
 
