@@ -14,7 +14,7 @@ The Docker image has been built for both x86_64 and ARM64, so the same instructi
 
 ```bash
 #1. Pull Docker image from ghcr.io
-docker pull ghcr.io/lwh1/rvemu:latestu
+docker pull ghcr.io/lwh1/rvemu:latest
 
 # 2. Run container
 docker container run --name rvemu -p 2222:2222 -d ghcr.io/lwh1/rvemu
@@ -70,8 +70,8 @@ After the initial setup, you can start and stop with its assigned name
 ```bash
 # Setup SSH key authentication
 ssh-keygen
-ssh-copy-id -p 2222 -f -i ~/.ssh/id_rsa.pub student@localhost
-# When prompted for password, enter: ilovecs
+ssh-copy-id -p 2222 -f -i ~/.ssh/id_rsa.pub root@localhost
+# When prompted for password, enter: csc3060
 ```
 
 SSH key authentication is a quality of life feature that you can use to securely login to a remote server password-free. In this case, our *"remote server"* is our not so remote QEMU machine inside the container.
@@ -83,17 +83,11 @@ Setting up a SSH config lets you login to a host without typing in the host IP a
 ```bash
 # Setup SSH config
 echo "
-Host debian-rv64
+Host csc3060
    HostName 127.0.0.1
-   User student
+   User root
    Port 2222
 " >> ~/.ssh/config
 ```
 
-You can copy paste the above into your bash shell to add the SSH config.
-
-## Advanced
-
-If you prefer to setup an environment with your own emulator e.g. UTM/QEMU, or perhaps have access to a RISC-V machine, you are welcome to do so. The OS disk image we use in our container image can be downloaded in the link below.
-
-https://cdn.cloud.vjssn.dev/debian-riscv64-virt.zip
+You can copy and paste the above into your bash shell to add the SSH config.
